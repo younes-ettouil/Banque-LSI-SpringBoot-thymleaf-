@@ -31,7 +31,7 @@ public class CompteController {
 
 	@GetMapping("/succes/{codeCpt}")
 	public String pageSucces(Model model,@PathVariable(name = "codeCpt") String codeCpt) {
-			System.out.println("QWE123");
+		
 			//get Compte By CodeCompte
 			Compte c = cptm.getCompte(codeCpt);
 			model.addAttribute("compte", c);
@@ -59,7 +59,7 @@ public class CompteController {
 	  @PostMapping("/saveCompteEpargne") 
 	  public String saveComptE(CompteEpargne c) {
 		  cptm.saveCompte(c); 
-	return "redirect:/comptes";
+	return  "redirect:/succes/"+c.getCodeCompte();
 	}
 	  
 
