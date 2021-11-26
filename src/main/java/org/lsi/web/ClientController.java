@@ -18,9 +18,9 @@ public class ClientController {
 	@Autowired
 	private ClientMetier cr;
 	
-	@GetMapping(path="/index")
+	@GetMapping(path="/")
 	public String indexpage() {
-		return "index";
+		return "Operation-ui";
 	}
 
 	

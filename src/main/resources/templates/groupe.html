@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeLeaf.org"
+  xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect/"
+>
+  <head>
+    <meta charset="utf-8" />
+    <title>Ma Banque</title>
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"
+    />
+  </head>
+  <body>
+    <header th:replace="fragment/header :: header"></header>
+    <div class="tab-content">
+      <div
+        class="container tab-pane fade show active"
+        id="home"
+        role="tabpanel"
+        aria-labelledby="home-tab"
+      >
+        <h4 class="text-center mt-3">GESTION DES GROUPE</h4>
+        <div class="cardes-form">
+          <div class="">
+            <div class="container">
+              <div class="row hidden-md-up">
+                <div class="col-md-6">
+                  <div class="card mt-4">
+                    <div class="card-header bg bg-light h4">
+                      AJOUTTER GROUPE
+                    </div>
+                    <div class="card-body" style="height: 300px">
+                      <form
+                        th:action="@{/saveGroupe}"
+                        method="post"
+                        th:object="${groupe}"
+                      >
+                        <div class="mt-4">
+                          <label>nom de Groupe :</label>
+                          <input
+                            type="text"
+                            id="selectBar"
+                            class="form-control"
+                            name="nomGroupe"
+                          />
+                        </div>
+
+                        <br />
+                        <br />
+                        <button type="submit" class="btn btn-primary">
+                          Confirmer
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-dark"
+                          onclick="CancelForm()"
+                        >
+                          Cancel
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card mt-4">
+                    <div class="card-header bg bg-light h4">
+                      AFFECTER GROUPE
+                    </div>
+                    <div class="card-body" style="height: 300px">
+                      <form th:action="@{/affecterGroupeEmp}" method="post">
+                        <div class="mt-4">
+                          <label>Nom employe :</label>
+                          <select
+                            class="form-select"
+                            name="codeEmploye"
+                            id="selectBar"
+                            required="required"
+                          >
+                            <option value="" selected>-choisir Employé-</option>
+                            <option
+                              th:each="emp:${listEmployes}"
+                              th:value="${emp.codeEmploye}"
+                            >
+                              [[${emp.nomEmploye}]]
+                            </option>
+                          </select>
+                        </div>
+
+                        <div class="mt-4">
+                          <label>Groupe:</label>
+                          <select
+                            class="form-select"
+                            name="codeGroupe"
+                            id="selectBar"
+                            required="required"
+                          >
+                            <option value="" selected>-Groupe-</option>
+                            <option
+                              th:each="gr:${Listgroup}"
+                              th:value="${gr.codeGroupe}"
+                            >
+                              [[${gr.nomGroupe}]]
+                            </option>
+                          </select>
+                        </div>
+                        <br />
+                        <br />
+                        <button type="submit" class="btn btn-primary">
+                          Confirmer
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-dark"
+                          onclick="CancelForm()"
+                        >
+                          Cancel
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

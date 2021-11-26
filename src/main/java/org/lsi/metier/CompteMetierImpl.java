@@ -32,6 +32,11 @@ public class CompteMetierImpl implements CompteMetier {
 	public List<Compte> listCompte(){
 		return compteRepository.findAll();
 	}
+	
+	public List<Compte> getComptClient(long idClient) {
+		
+		return compteRepository.getByClient(idClient);
+	}
 
 	
 

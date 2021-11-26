@@ -1,202 +1,294 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeLeaf.org"
-	xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect/">
-<head>
-<meta charset="utf-8">
-<title>Ma Banque</title>
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}">
-</head>
-<style>
-#selectBar{
-	width: 40%;
-	margin-left: 30%;
- margin-top: -28px
-	
-}
-#selectBar2{
-	width: 50%;
+<html
+  xmlns:th="http://www.thymeLeaf.org"
+  xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect/"
+>
+  <head>
+    <meta charset="utf-8" />
+    <title>Ma Banque</title>
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}"
+    />
+  </head>
+  <style>
+    #selectBar {
+      width: 40%;
+      margin-left: 30%;
+      margin-top: -28px;
+    }
+    #selectBar2 {
+      width: 50%;
 
-	float:right;
- margin-top: -5px
-}
-#label1{
-width:30px;
-margin-top: -30px;
-margin-left: 70%;
-}
-#codelabel{
-width:200px;
-}
+      float: right;
+      margin-top: -5px;
+    }
+    #label1 {
+      width: 30px;
+      margin-top: -30px;
+      margin-left: 70%;
+    }
+    #codelabel {
+      width: 200px;
+    }
+  </style>
+  <body>
+    <header th:replace="fragment/header :: header"></header>
 
-</style>
-<body>
-<header th:replace="fragment/header :: header"></header>
+    <div class="tab-content">
+      <div
+        class="container tab-pane fade show active"
+        id="home"
+        role="tabpanel"
+        aria-labelledby="home-tab"
+      >
+        <h4 class="text-center mt-3">GESTION DES OPERATIONS</h4>
+        <div class="cardes-form">
+          <div class="">
+            <div class="container">
+              <div class="row hidden-md-up">
+                <div class="col-md-6">
+                  <div class="card mt-3">
+                    <div class="card-header bg bg-light h4">
+                      CONSULTER UN COMPTE
+                    </div>
+                    <div class="card-body h5" style="height: 393px">
+                      <form th:action="@{consulterCompte}" method="get">
+                        <div>
+                          <div class="col-md-8 mt-5" align="center">
+                            <label class="form-label">Code Compte (CC) :</label>
+                            <input
+                              id="selectBar2"
+                              type="text"
+                              class="form-control"
+                              name="codeCpt"
+                            />
+                          </div>
+                          <div id="chercherButton" align="center" class="mt-3">
+                            <input
+                              type="submit"
+                              value="Confirme"
+                              class="btn btn-dark"
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card mt-3" th:if="${compte}">
+                    <div class="card-header bg bg-light h4">
+                      OPERATION SUR LE COMPTE 
+                    </div>
+                    <div class="">
+                      <div class="card-body" style="height: 400px">
+                        <form th:action="@{/saveOperation}" method="Post">
+                          <div class="mt-1">
+                            <label>Code de Compte choisi : (CC):</label>
+                            <input
+                              type="hidden"
+                              name="codeCompte"
+                              th:value="${codeCompte}"
+                            />
+                            <label th:text="${codeCompte}"></label>
+                          </div>
+                          <div class="mt-3" align="center">
+                            <input
+                              type="radio"
+                              class="form-check-input"
+                              name="typeOperations"
+                              value="VR"
+                              checked="checked"
+                              onchange="document.getElementById('forVir').style.display='none'"
+                            />
+                            <label>Versement</label>
+                            <input
+                              type="radio"
+                              class="form-check-input"
+                              name="typeOperations"
+                              value="RE"
+                              onchange="document.getElementById('forVir').style.display='none'"
+                            />
+                            <label>Retrait</label>
+                            <input
+                              type="radio"
+                              class="form-check-input"
+                              name="typeOperations"
+                              value="VI"
+                              onchange="document.getElementById('forVir').style.display='block'"
+                            />
+                            <label>Virement</label>
+                          </div>
+                          <div class="mt-4" id="forVir" style="display: none">
+                            <label>vers Compte (CC) :</label>
+                            <input
+                              type="text"
+                              id="selectBar"
+                              class="form-control"
+                              name="codeCompt2"
+                            />
+                            
+                          </div>
+                          <div class="mt-4">
+                            <label>Montant :</label>
+                            <input
+                              type="text"
+                              id="selectBar"
+                              class="form-control"
+                              name="montant"
+                            />
+                            <div id="label1" class="text-center">DH</div>
+                          </div>
+                          <div class="mt-4">
+                            <label>Nom employe :</label>
+                            <select
+                              name="idEmp"
+                              class="form-select"
+                              id="selectBar"
+                              required="required"
+                            >
+                              <option value="" selected>
+                                choisir votre Employé
+                              </option>
+                              <option
+                                th:each="emp:${listEmployes}"
+                                th:value="${emp.codeEmploye}"
+                              >
+                                [[${emp.nomEmploye}]]
+                              </option>
+                            </select>
+                          </div>
+                          <div align="center" class="mt-5">
+                            <input
+                              type="submit"
+                              value="confirme"
+                              class="btn btn-dark"
+                            />
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card mt-2" th:if="${compte}">
+                    <div th:if="${compte}">
+                      <div class="card-header bg bg-light h4">
+                        INFORMATION SUR COMPTE DE MR 
+                        [[${compte.Client.nomClient}]]
+                      </div>
+                    </div>
+                    <div class="card-body" style="height: 350px">
+                      <div th:if="${compte}" class="">
+                        <div class="mt-2">
+                          <label>Client:</label>
+                          <label th:text="${compte.Client.nomClient}"></label>
+                        </div>
+                        <div class="mt-2">
+                          <label>Code Compte:</label>
+                          <label th:text="${compte.codeCompte}"></label>
+                        </div>
+                        <div class="mt-2">
+                          <label>Solde:</label>
+                          <label th:text="${compte.solde}"></label>
+                        </div>
+                        <div class="mt-2">
+                          <label>Date Creation:</label>
+                          <label th:text="${compte.dateCreation}"></label>
+                        </div>
+                        <div class="mt-2">
+                          <label>Type:</label>
+                          <label th:text="${compte.class.simpleName}"></label>
+                        </div>
+                        <div
+                          class="mt-2"
+                          th:if="${compte.class.simpleName=='CompteCourant'}"
+                        >
+                          <label>Decouvert:</label>
+                          <label th:text="${compte.decouvert}"></label>
+                        </div>
+                        <div
+                          class="mt-2"
+                          th:if="${compte.class.simpleName=='CompteEpargne'}"
+                        >
+                          <label>Taux:</label>
+                          <label th:text="${compte.taux}"></label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card mt-2" th:if="${compte}">
+                    <div class="card-header bg bg-light h4">
+                     LISTE DES OPERATIONS
+                    </div>
+                    <div class="card-body" style="height: 350px">
+                      <div class="">
+                        <table class="table table-striped table-bordered">
+                          <thead class="table-dark">
+                            <tr>
+                              <th class="th-sm">Nbr Operation</th>
+                              <th class="th-sm">Type</th>
+                              <th class="th-sm">Date Operation</th>
+                              <th class="th-sm">Montant</th>
+                              <th class="th-sm">Employe</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <th:block th:each="opera :${ListOperations}">
+                              <tr>
+                                <td>[[${opera.numeroOperation}]]</td>
+                                <td>[[${opera.class.simpleName}]]</td>
+                                <td>[[${opera.dateOperation}]]</td>
+                                <td>[[${opera.montant}]]</td>
+                                <td>[[${opera.Employe.nomEmploye}]]</td>
+                              </tr>
+                            </th:block>
+                          </tbody>
+                        </table>
+                        <ul class="pagination w-75 mx-auto"></ul>
+                        <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                              <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                            <li
+                              class="page-item"
+                              th:each="page,status:${pages}"
+                            >
+                              <a
+                                th:class="${status.index==currentPage?'page-link' : 'page-link'}"
+                                th:text="${status.index}"
+                                class="page-link"
+                                th:href="@{'consulterCompte?codeCpt='+${compte.codeCompte}+'&page='+${status.index}}"
+                              ></a>
+                            </li>
 
-	<div class="tab-content ">
-		<div class=" container tab-pane fade show active" id="home"
-			role="tabpanel" aria-labelledby="home-tab">
-			<h4 class="text-center mt-3">Gestion Comptes</h4>
-			<div class="cardes-form">
-				<div class="">
-					<div class="container">
-						<div class="row hidden-md-up">
-							<div class="col-md-6">
-							
-									<div class="card  mt-3">
-										<div class="card-header bg bg-light  h4">Consulter un Compte</div>
-										<div class="card-body h5" style="height: 300px; ">
-											<form th:action="@{consulterCompte}" method="get">
-												<div >
-													<div class="col-md-8 mt-5"  align="center">
-														<label class="form-label ">Code Compte (CC) :</label>
-														 <input id="selectBar2"  type="text" class="form-control" name="codeCpt">
-													</div>
-													<div id="chercherButton" align="center" class=" mt-3" >
-														<input type="submit" value="Confirme" class=" btn btn-dark">
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-						
-							</div>
-							<div class="col-md-6">
-								<div class="card mt-3" th:if="${compte}">
-									<div class="card-header bg bg-light  h4">Operations Sur
-										le Compte</div>
-									<div class="">
-										<div class="card-body"  style="height: 300px; ">
-											<form th:action="@{/saveOperation}" method="Post">
-												<div class="mt-1" >
-													<label>Code de  Compte choisi : (CC):</label> 
-													<input type="hidden" 	name="codeCompte" th:value="${codeCompte}">
-													 <label th:text="${codeCompte}"></label>
-												</div>
-												<div class="mt-3" align="center" >
-													<input type="radio" class="form-check-input" name="typeOperations" value="VR" checked="checked" onchange="document.getElementById('forVir').style.display='none'">
-													<label>Versement</label> 
-													<input type="radio" class="form-check-input" name="typeOperations" value="RE" onchange="document.getElementById('forVir').style.display='none'"> 
-													<label>Retrait</label>
-													<input type="radio" class="form-check-input" name="typeOperations" value="VI" onchange="document.getElementById('forVir').style.display='block'"> 
-													<label>Virement</label>
-													
-												</div>
-											<div class="mt-4" id="forVir" style="display: none;">
-													<label>vers Compte (CC) :</label> <input type="text" id="selectBar"  class="form-control" name="codeCompt2"> <div id="label1" class="text-center">DH</div>
-												</div> 
-												<div class="mt-4">
-													<label>Montant :</label> <input type="text" id="selectBar"  class="form-control" name="montant"> <div id="label1" class="text-center">DH</div>
-												</div>
-												<div class="mt-4">
-													<label>Nom employe :</label> 
-													<select name="idEmp" class="form-select" id="selectBar" required="required">
-														<option value="" selected>choisir votre Employé</option>
-															<option th:each="emp:${listEmployes}" th:value="${emp.codeEmploye}"  >
-															[[${emp.nomEmploye}]]
-															</option>
-														
-													</select>
-												</div>
-												<div align="center" class="mt-5">
-													<input type="submit" value="confirme" class="btn btn-dark">
-												</div>
-											</form>
-
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-						<br>
-						<div class="row" >
-							<div class="col-md-6" >
-								<div class="card  mt-2" th:if="${compte}">
-									<div th:if="${compte}">
-										<div class="card-header bg bg-light  h4">Information sur
-											le compte de [[${compte.Client.nomClient}]]</div>
-									</div>
-									<div class="card-body "  style="height: 300px; ">
-										<div th:if="${compte}" class="">
-											<div class="mt-2">
-												<label>Client:</label> <label
-													th:text="${compte.Client.nomClient}"></label>
-											</div>
-											<div class="mt-2">
-												<label>Code Compte:</label> <label
-													th:text="${compte.codeCompte}"></label>
-											</div>
-											<div class="mt-2">
-												<label>Solde:</label> <label th:text="${compte.solde}"></label>
-											</div>
-											<div class="mt-2">
-												<label>Date Creation:</label> <label
-													th:text="${compte.dateCreation}"></label>
-											</div>
-											<div class="mt-2">
-												<label>Type:</label> <label
-													th:text="${compte.class.simpleName}"></label>
-
-											</div>
-											<div class="mt-2"
-												th:if="${compte.class.simpleName=='CompteCourant'}">
-												<label>Decouvert:</label> <label
-													th:text="${compte.decouvert}"></label>
-											</div>
-											<div class="mt-2"
-												th:if="${compte.class.simpleName=='CompteEpargne'}">
-												<label>Taux:</label> <label th:text="${compte.taux}"></label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								 <div class="card  mt-2" th:if="${compte}"	>
-									<div class="card-header bg bg-light  h4">Liste des
-										Operations</div>
-									<div class="card-body "  style="height: 300px; ">
-										<div class="">
-											<table class="table table-striped table-bordered ">
-												<thead class="table-dark">
-													<tr>
-														<th class="th-sm">mumero Operation</th>
-														<th class="th-sm">Type</th>
-														<th class="th-sm">Date Operation</th>
-														<th class="th-sm">montant</th>
-														<th class="th-sm">employe</th>
-
-													</tr>
-												</thead>
-												<tbody>
-													<th:block th:each="opera :${ListOperations}">
-														<tr>
-															<td>[[${opera.numeroOperation}]]</td>
-															<td>[[${opera.class.simpleName}]]</td>
-															<td>[[${opera.dateOperation}]]</td>
-															<td>[[${opera.montant}]]</td>
-
-															<td>[[${opera.Employe.nomEmploye}]]</td>
-
-														</tr>
-													</th:block>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div> 
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<footer th:replace="fragment/footer :: footer"></footer>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
+                            <li>
+                              <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer th:replace="fragment/footer :: footer"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

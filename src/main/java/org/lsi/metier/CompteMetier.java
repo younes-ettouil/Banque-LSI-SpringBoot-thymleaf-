@@ -9,5 +9,6 @@ public interface CompteMetier {
 	public Compte saveCompte(Compte cp);
 	public Compte getCompte(String code);
 	public List<Compte> listCompte();
+	public List<Compte> getComptClient(long idClient);
 
 }

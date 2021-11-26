@@ -21,7 +21,6 @@ public class Groupe implements Serializable {
 	private String nomGroupe;
 	
 	@ManyToMany(mappedBy="groupes")
-	
 	private Collection<Employe> employe;
 	public Groupe(String nomGroupe) {
 		super();
